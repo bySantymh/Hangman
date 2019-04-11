@@ -1,0 +1,274 @@
+ static void Main(string[] args)
+        {
+            //Variable declaration
+            string mainword;
+            
+            string letterInput = "";
+
+            int attemps = 0;
+            int letterCorrects  = 0;
+            char letterChar = ' ';
+
+            bool PlayerTurn;
+            bool playing = true;
+           
+            int lengthword = 0;
+            bool equal = false;
+
+            string playingOrNot = "";
+
+
+            //Start game
+
+            while (playing)
+            {
+                //Welcome Text and Rules
+                Console.WriteLine("WELCOME TO THE HANGMAN GAME!");
+                Console.WriteLine("Rules: Please insert a word in lowercase which contains minimum from three to nineteen characters.");
+                Console.WriteLine("\nGame starts!");
+
+                //Bucle to force player to input the magic word according to rules established
+                do
+                {
+                    //Word input and Console clear
+                    Console.WriteLine("Player 1 insert the word that will be guessed by the player 2. ");
+                    mainword = Console.ReadLine();
+                    
+
+                    Console.WriteLine("The magic word is: " + mainword);
+
+                    lengthword = mainword.Length;           //Int value
+
+                    Console.WriteLine("The length of the word is: " + lengthword);
+
+                    Console.Clear();     //Clear Console
+
+                    //Condition of minimun and maximum word'characters
+                    if ((lengthword < 3) || (lengthword > 19))
+                    {
+                        Console.WriteLine("Error! Wrong input, please make sure that the lenght of the word is between three and nineteen characters.");
+                    }
+
+
+                } while ((lengthword < 3) || (lengthword > 19));
+
+
+                char[] mainwordChar = mainword.ToCharArray();       //Letters
+                char[] hiddenword = new char[mainword.Length];     //Lower Bars
+
+                letterCorrects = 0;
+                
+                
+                for (int i = 0; i < hiddenword.Length; i++)
+                {
+                    hiddenword[i] = '_';      //Replace the letters of mainword to lower bars
+                    
+                }
+
+
+                do
+                {
+
+
+                    PlayerTurn = true;
+                    Console.Clear();
+
+                    //Show graphics and lowbars
+                    switch (attemps)
+                    {
+                        case 0:
+                            Console.Write("\n \n \n \n \n___________ \n");
+
+                            break;
+                        case 1:
+                            Console.Write(" \n |    \n |    \n |    \n |    \n___________ \n");
+
+                            break;
+                        case 2:
+                            Console.Write(" ------ \n |    \n |    \n |    \n |    \n___________ \n");
+
+                            break;
+                        case 3:
+                            Console.Write(" ------ \n |    |\n |    O \n |    \n |    \n___________ \n");
+
+                            break;
+                        case 4:
+                            Console.Write(" ------\n |    |\n |    O \n |   / \n |   \n___________ \n");
+
+                            break;
+                        case 5:
+                            Console.Write(" ------\n |    |\n |    O \n |   /| \n |    \n___________ \n");
+
+                            break;
+                        case 6:
+                            Console.Write(" ------\n |    |\n |    O \n |   /|\\ \n |    \n___________ \n");
+
+                            break;
+                        case 7:
+                            Console.Write(" ------\n |    |\n |    O \n |   /|\\ \n |   /  \n___________ \n");
+
+                            break;
+                        case 8:
+                            Console.Write(" ------\n |    |\n |    O \n |   /|\\ \n |   / \\ \n___________ \n");
+
+                            break;
+
+                    }
+
+                    //Show the word
+                    Console.Write("\nThe misterious word is: ");
+                    for (int i = 0; i < hiddenword.Length; i++)
+                    {
+                        Console.Write(hiddenword[i] + " ");
+                    }
+
+                    //Turn of the playerInput
+                    while (PlayerTurn == true)
+                    {
+                        Console.WriteLine("\nPlease enter a leter: ");
+                        letterInput = Console.ReadLine();
+
+                        if (letterInput.Length == 1)
+                        {
+                            letterChar = Convert.ToChar(letterInput);
+                            PlayerTurn = false;
+                        }
+                    }
+
+                    //Find if there is any coincidence between the input and the hiddenspaces array
+                    for (int i = 0; i < hiddenword.Length; i++)
+                    {
+
+                        if (letterChar == mainwordChar[i])
+                        {
+                            hiddenword[i] = letterChar;
+                            equal = true;
+
+                            /*
+                            //Debugs
+                            Console.WriteLine("Letter in");
+                            Console.ReadLine(); 
+                            */
+                        }
+                        else
+                        {
+                            
+                            if (letterChar == hiddenword[i])
+                            {
+
+                                //Warning feedback for repeating a letter
+                                Console.WriteLine("Be careful, that letter is already written!");
+                                Console.ReadLine();
+
+                            }
+                          
+                        }
+
+                    }
+
+
+                    if (equal)
+                    {
+                        letterCorrects++;
+                        equal = false;
+                    }
+                    else
+                    {
+                        attemps++;
+                    }
+
+
+                } while ((attemps <= 8) && (letterCorrects != hiddenword.Length));
+
+                Console.Clear();
+
+                //Show graphics
+                switch (attemps)
+                {
+                    case 0:
+                        Console.Write("\n \n \n \n \n___________ \n");
+
+                        break;
+                    case 1:
+                        Console.Write(" \n |    \n |    \n |    \n |    \n___________ \n");
+
+                        break;
+                    case 2:
+                        Console.Write(" ------ \n |    \n |    \n |    \n |    \n___________ \n");
+
+                        break;
+                    case 3:
+                        Console.Write(" ------ \n |    |\n |    O \n |    \n |    \n___________ \n");
+
+                        break;
+                    case 4:
+                        Console.Write(" ------\n |    |\n |    O \n |   / \n |   \n___________ \n");
+
+                        break;
+                    case 5:
+                        Console.Write(" ------\n |    |\n |    O \n |   /| \n |    \n___________ \n");
+
+                        break;
+                    case 6:
+                        Console.Write(" ------\n |    |\n |    O \n |   /|\\ \n |    \n___________ \n");
+
+                        break;
+                    case 7:
+                        Console.Write(" ------\n |    |\n |    O \n |   /|\\ \n |   /  \n___________ \n");
+
+                        break;
+                    case 8:
+                        Console.Write(" ------\n |    |\n |    O \n |   /|\\ \n |   / \\ \n___________ \n");
+
+                        break;
+
+                }
+
+                //Reveals all the letters of mainword
+                Console.Write("The misterious word was: ");
+                for (int i = 0; i < hiddenword.Length; i++)
+                { 
+                    Console.Write(mainwordChar[i] + " ");
+                }
+
+                //Check if the player wins or not by comparing the word length and the letters guessed
+                if (letterCorrects == hiddenword.Length)
+
+                {
+                    
+                    Console.WriteLine("\nYou win! \nThe word was: {0}. \nIf you want to reset game please press R, else, if you want exit game please press E: R / E", mainword);
+                    playingOrNot = Console.ReadLine();
+                    if (playingOrNot == "E")
+                    {
+                        playing = false;
+                        Environment.Exit(0);        //Close cconsole
+                    }
+                    else
+                    {
+                        attemps = 0;     //Reset score for new game
+                        Console.Clear();
+                    } 
+                   
+                }
+                else
+                {
+                    Console.WriteLine("\nCome on! You are too bad! \nThe word was: {0}. \nIf you want to reset game please press R, else, if you want exit game please press E: R / E", mainword);
+                    playingOrNot = Console.ReadLine();
+                    if (playingOrNot == "E")
+                    {
+                        playing = false;
+                        Environment.Exit(0);        //Close cconsole
+                    }
+                    else
+                    {
+                        attemps = 0;     //Reset score for new game
+                        Console.Clear();
+                    }
+                }
+
+
+            }
+
+            Console.ReadLine();
+
+        }
